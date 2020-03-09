@@ -41,6 +41,7 @@ https://es6.ruanyifeng.com/
  ```
  只要等号两边模式一致，就可以给左边的变量赋予对应的值。
  如果解构不成功，变量的值就等于undefined。
+ 数组结构赋值是浅拷贝，如果右边是对象，只会拷贝引用（对象解构也是一样）
  ```javascript
  let [x, y, ...z] = ['a'];
  x // "a"
@@ -128,12 +129,12 @@ https://es6.ruanyifeng.com/
   语法：/正则表达式主体/修饰符(可选)
   
   #### 修饰符
-  ES5现存修饰符
+  ##### ES5现存修饰符
   - i	执行对大小写不敏感的匹配。
   - g	执行全局匹配（查找所有匹配而非在找到第一个匹配后停止）。
   - m	执行多行匹配。
   
-  #### ES6新增修饰符
+  ##### ES6新增修饰符
   - u 含义为“Unicode 模式”，用来正确处理大于\uFFFF的 Unicode 字符。
     ```javascript
     /^\uD83D/u.test('\uD83D\uDC2A') // false
@@ -205,7 +206,7 @@ https://es6.ruanyifeng.com/
   RegExp.prototype.test
  
 ## 6.函数
- #### 1.支持默认值
+ #### 支持默认值
  函数支持默认值了，当参数值严格等于undefined是才会使用默认值（typeof y === 'undefined'）。
  当默认值是计算式时，是惰性求值。
  ```javascript
@@ -214,7 +215,7 @@ https://es6.ruanyifeng.com/
  }
  ```
 
- #### 2.变量赋值为函数时，带括号表示把运行结果赋值，不带括号表示把定义赋值。
+ #### 变量赋值为函数时，带括号表示把运行结果赋值，不带括号表示把定义赋值。
  ```javascript
  function throwIfMissing() {
   throw new Error('Missing parameter');
@@ -223,11 +224,11 @@ https://es6.ruanyifeng.com/
  let y = throwIfMissing
  ```
 
-#### 3.rest参数
+#### rest参数
  ES6 引入 rest 参数（形式为 ...变量名），用于获取函数的多余参数
  function add(...values)values可以接受多个参数，是一个数组
 
- #### 4.箭头函数
+ #### 箭头函数
  ```javascript
  var sum = (num1, num2) => num1 + num2;
  // 等同于
@@ -253,10 +254,111 @@ https://es6.ruanyifeng.com/
  上面四点中，第一点尤其值得注意。this对象的指向是可变的，但是在箭头函数中，它是固定的。
  
  
+ ## 对象
+ #### 简洁表示法
+ ES6 允许在大括号里面，直接写入变量和函数，作为对象的属性和方法。
+ return {x, y}; 
+ let obj = {x, y};
+ ```javascript
+ let birth = '2000/01/01';
+
+ const Person = {
+
+  name: '张三',
+
+  //等同于birth: birth
+  birth,
+
+  // 等同于hello: function ()...
+  hello() { console.log('我的名字是', this.name); }
+
+};
+ ```
  
+ #### 属性名表达式
+ 属性名可以使用变量或者表达式，用`[]`括起来。
+ ```javascript
+ obj['a' + 'bc'] = 123;
  
+ let obj = {
+  [propKey]: true,
+  ['a' + 'bc']: 123,
+  
+  // 方法名也可以使用表达式
+  ['h' + 'ello']() {
+    return 'hi';
+  }
+};
+```
+
+ #### 属性的可枚举性和遍历
+ ##### 可枚举性
+ 对象的每个属性都有一个描述对象（Descriptor），用来控制该属性的行为。Object.getOwnPropertyDescriptor方法可以获取该属性的描述对象。
+ ```javascript
+ let obj = { foo: 123 };
+ Object.getOwnPropertyDescriptor(obj, 'foo')
+ //  {
+ //    value: 123,
+ //    writable: true,
+ //    enumerable: true,
+ //    configurable: true
+ //  }
+ ```
+ 描述对象的enumerable属性，称为“可枚举性”，如果该属性为false，就表示某些操作会忽略当前属性。
+
+ 目前，有四个操作会忽略enumerable为false的属性。
+ for...in循环：只遍历对象自身的和继承的可枚举的属性。
+ Object.keys()：返回对象自身的所有可枚举的属性的键名。
+ JSON.stringify()：只串行化对象自身的可枚举的属性。
+ Object.assign()： 忽略enumerable为false的属性，只拷贝对象自身的可枚举的属性。
  
- 
+ ##### 属性的遍历
+ （1）for...in
+ for...in循环遍历对象自身的和继承的可枚举属性（不含 Symbol 属性）。
+
+（2）Object.keys(obj)
+ Object.keys返回一个数组，包括对象自身的（不含继承的）所有可枚举属性（不含 Symbol 属性）的键名。
+
+（3）Object.getOwnPropertyNames(obj)
+ Object.getOwnPropertyNames返回一个数组，包含对象自身的所有属性（不含 Symbol 属性，但是包括不可枚举属性）的键名。
+
+（4）Object.getOwnPropertySymbols(obj)
+ Object.getOwnPropertySymbols返回一个数组，包含对象自身的所有 Symbol 属性的键名。
+
+（5）Reflect.ownKeys(obj)
+ Reflect.ownKeys返回一个数组，包含对象自身的所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举。
+ 以上的 5 种方法遍历对象的键名，都遵守同样的属性遍历的次序规则。
+ 首先遍历所有数值键，按照数值升序排列。
+ 其次遍历所有字符串键，按照加入时间升序排列。
+ 最后遍历所有 Symbol 键，按照加入时间升序排列。
+ ```javascript
+ Reflect.ownKeys({ [Symbol()]:0, b:0, 10:0, 2:0, a:0 })
+ // ['2', '10', 'b', 'a', Symbol()]
+ ```
+上面代码中，Reflect.ownKeys方法返回一个数组，包含了参数对象的所有属性。这个数组的属性次序是这样的，首先是数值属性2和10，其次是字符串属性b和a，最后是 Symbol 属性。
+
+#### super 关键字
+this关键字总是指向函数所在的当前对象，ES6 又新增了另一个类似的关键字super，指向当前对象的原型对象。
+```javascript
+const proto = {
+  x: 'hello',
+  foo() {
+    console.log(this.x);
+  },
+};
+
+const obj = {
+  x: 'world',
+  foo() {
+    super.foo();
+  }
+}
+
+Object.setPrototypeOf(obj, proto);
+
+obj.foo() // "world"
+````
+super.foo指向原型对象proto的foo方法，但是绑定的this却还是当前对象obj，因此输出的就是world。
  
  
  
