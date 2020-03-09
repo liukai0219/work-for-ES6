@@ -1,7 +1,7 @@
-学习教材
+##学习教材
 https://es6.ruanyifeng.com/
 
-1.let和var的区别
+##1.let和var的区别
  let是ES6新增的，用来声明变量。只在所在代码块生效。var声明的变量在代码块外面也能使用。
  let不允许重复声明，var允许。
  
@@ -14,7 +14,7 @@ https://es6.ruanyifeng.com/
  // abc
  // abc
  
-2.常量定义
+##2.常量定义
  const a = "a";
  const b = {}; //{}表示对象，[]表示数组
  const声明常量实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。
@@ -24,7 +24,7 @@ https://es6.ruanyifeng.com/
  就完全不能控制了。因此，将一个对象声明为常量必须非常小心。
  
 
-3.变量的解构赋值
+##3.变量的解构赋值
  ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。
  
  数组解构
@@ -61,7 +61,7 @@ https://es6.ruanyifeng.com/
  在模块加载时，用来加载模块中的对应方法。
  import { connect } from 'react-redux';
  
- 4.字符串
+ ##4.字符串
   把码点解析为字符：String.fromCodePoint(0x20BB7); ES6提供的方法。
   ES5 提供String.fromCharCode()方法，用于从 Unicode 码点返回对应字符，但是这个方法不能识别码点大于0xFFFF的字符。
   
@@ -99,7 +99,7 @@ https://es6.ruanyifeng.com/
   matchAll()方法返回一个正则表达式在当前字符串的所有匹配
   
   
-正则表达式
+##5.正则表达式
   语法：/正则表达式主体/修饰符(可选)
   
   修饰符
@@ -171,7 +171,7 @@ https://es6.ruanyifeng.com/
    
   RegExp.prototype.test
  
-函数
+##6.函数
  1.支持默认值
  函数支持默认值了，当参数值严格等于undefined是才会使用默认值（typeof y === 'undefined'）。
  当默认值是计算式时，是惰性求值。
