@@ -360,11 +360,27 @@ obj.foo() // "world"
 ````
 super.foo指向原型对象proto的foo方法，但是绑定的this却还是当前对象obj，因此输出的就是world。
  
+ #### 链判断运算符
+ ```javascript
+ const firstName = message?.body?.user?.firstName || 'default';
+ const fooValue = myForm.querySelector('input[name=foo]')?.value
+ ```
+ 上面代码使用了?.运算符，直接在链式调用的时候判断，左侧的对象是否为null或undefined。如果是的，就不再往下运算，而是返回undefined。
+
+ 链判断运算符有三种用法。
+ obj?.prop // 对象属性
+ obj?.[expr] // 同上
+ func?.(...args) // 函数或对象方法的调用
  
- 
- 
- 
- 
+ #### Null 判断运算符
+ ES2020 引入了一个新的 Null 判断运算符??。只有运算符左侧的值为null或undefined时，才会返回右侧的值。
+ ```javascript
+ const headerText = response.settings.headerText ?? 'Hello, world!';
+ const animationDuration = response.settings.animationDuration ?? 300;
+ const showSplashScreen = response.settings.showSplashScreen ?? true;
+ ```
+ 运算优先级问题
+ 与&&和||的优先级孰高孰低。必须用括号表明优先级，否则会报错。
  
  
  
