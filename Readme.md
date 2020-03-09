@@ -382,6 +382,47 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
  运算优先级问题
  与&&和||的优先级孰高孰低。必须用括号表明优先级，否则会报错。
  
+ #### 对象新增方法
+ Object.is() 比较连个对象是否相等。并解决+0和-0相等，NaN不等于自身问题
+ ```javascript
+ +0 === -0 //true
+ NaN === NaN // false
+
+ Object.is(+0, -0) // false
+ Object.is(NaN, NaN) // true
+ ```
+ Object.assign()
+ 用于对象的合并，将源对象（source）的所有可枚举属性，复制到目标对象（target）。
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  
  
