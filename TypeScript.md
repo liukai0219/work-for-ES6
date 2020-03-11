@@ -1,4 +1,5 @@
 # TypeScript
+https://www.tslang.cn/docs/handbook/basic-types.html
 
 ## ES5, ES2015（ES6） 和 TypeScript的关系
 ![ES5, ES2015（ES6） 和 TypeScript的关系](http://p8.qhimg.com/t01e695dbf2438846f7.gif)
@@ -20,8 +21,63 @@ TypeScript 是一种给 JavaScript 添加特性的语言扩展。增加的功能
 - 名字空间
 - 元组
 - Await
+
 以下功能是从 ECMA 2015 反向移植而来：
 - 类
 - 模块
 - lambda 函数的箭头语法
 - 可选参数以及默认参数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
