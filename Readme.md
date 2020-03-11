@@ -383,7 +383,7 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
  与&&和||的优先级孰高孰低。必须用括号表明优先级，否则会报错。
  
  #### 对象新增方法
- Object.is() 比较连个对象是否相等。并解决+0和-0相等，NaN不等于自身问题
+ ##### Object.is() 比较连个对象是否相等。并解决+0和-0相等，NaN不等于自身问题
  ```javascript
  +0 === -0 //true
  NaN === NaN // false
@@ -391,22 +391,85 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
  Object.is(+0, -0) // false
  Object.is(NaN, NaN) // true
  ```
- Object.assign()
+ ##### Object.assign()
  用于对象的合并，将源对象（source）的所有可枚举属性，复制到目标对象（target）。
+ ```javascript
+ const target = { a: 1, b: 1 };
+ const source1 = { b: 2, c: 2 };
+ const source2 = { c: 3 };
+
+ Object.assign(target, source1, source2);
+ target // {a:1, b:2, c:3}
+ ```
+ 重名的属性，起那面的会被后面的覆盖。
+ 注意点：
+ - Object.assign方法实行的是浅拷贝
+ - 同名属性的替换
+ - Object.assign可以用来处理数组，但是会把数组视为对象。
+    ```javascript
+    Object.assign([1, 2, 3], [4, 5])//[1, 2, 3]=>{0:1, 1:2, 2:3}  [4, 5]=>{0:4, 1:5}
+    // [4, 5, 3]
+   ```
+ ##### `__proto__`属性，`Object.setPrototypeOf()`，`Object.getPrototypeOf()`
+ javascript是基于原型的，继承是基于原型链。
+ 每个对象都有一个私有属性（__proto__），指向自己的原型对象prototype。原型对象也有__proto__指向自己的原型对象，由此形成了原型链。
+ 原型链最上层是null（没有原型）。
+ Object.setPrototypeOf 设置一个对象的prototype对象
+ ```javascript
+ let proto = {};
+ let obj = { x: 10 };
+ Object.setPrototypeOf(obj, proto);
+
+ proto.y = 20;
+ proto.z = 40;
+
+ obj.x // 10
+ obj.y // 20
+ obj.z // 40
+ ```
+ Object.getPrototypeOf() 读取原型对象。
  
+ ##### Object.keys()，Object.values()，Object.entries()
+ Object.keys 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键名。
+ Object.values 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键值。
+ Object.entries 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键值对数组。
+ ```javascript
+ let {keys, values, entries} = Object;
+ let obj = { a: 1, b: 2, c: 3 };
+
+ for (let key of keys(obj)) {
+  console.log(key); // 'a', 'b', 'c'
+ }
+
+ for (let value of values(obj)) {
+  console.log(value); // 1, 2, 3
+ }
+
+ for (let [key, value] of entries(obj)) {
+  console.log([key, value]); // ['a', 1], ['b', 2], ['c', 3]
+ }
+ ```
+ ##### Object.fromEntries()
+ Object.fromEntries()方法是Object.entries()的逆操作，用于将一个键值对数组转为对象。
+ ```javascript
+ // 例一
+ const entries = new Map([
+   ['foo', 'bar'],
+   ['baz', 42]
+ ]);
+
+ Object.fromEntries(entries)
+ // { foo: "bar", baz: 42 }
+
+ // 例二
+ const map = new Map().set('foo', true).set('bar', false);
+ Object.fromEntries(map)
+ // { foo: true, bar: false }
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+ // 配合URLSearchParams对象，将查询字符串转为对象
+ Object.fromEntries(new URLSearchParams('foo=bar&baz=qux'))
+ // { foo: "bar", baz: "qux" }
+ ```
  
  
  
