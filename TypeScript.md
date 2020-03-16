@@ -83,14 +83,57 @@ let colorName: string = Color[2];
 console.log(colorName);  // 显示'Green'因为上面代码里它的值是2
 ```
 
+### 接口
+TypeScript的核心原则之一是对值所具有的结构进行类型检查。 它有时被称做“鸭式辨型法”或“结构性子类型化”。 
+在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
 
+```javascript
+interface LabelledValue {
+  label: string;
+}
 
+function printLabel(labelledObj: LabelledValue) {
+  console.log(labelledObj.label);
+}
 
+let myObj = {size: 10, label: "Size 10 Object"};
+printLabel(myObj);
+// printLabel(size: 10, label: "Size 10 Object");
+// Object literal may only specify known properties, and 'label' does not exist in type 'LabelledValue'
+// 对于匿名对象会进行额外的属性检查？
+```
+类型检查器会查看printLabel的调用。 printLabel有一个参数，并要求这个对象参数有一个名为label类型为string的属性。
+当该属性不存在，或者类型不为string将会报错。
 
+可选属性
+可选属性定义就是在属性名字后面加一个?符号。
+```javascript
+interface SquareConfig {
+  color?: string;
+  width?: number;
+}
+```
+可选属性的好处之一是可以对可能存在的属性进行预定义，好处之二是可以捕获引用了不存在的属性时的错误。 
 
+只读属性
+一些对象属性只能在对象刚刚创建的时候修改其值。定义只读属性，用`readonly`
+```javascript
+interface Point {
+    readonly x: number;
+    readonly y: number;
+}
 
+let p1: Point = { x: 10, y: 20 };
+p1.x = 5; // error!
 
-
+function printValue(p:Point) {
+	// p.x = "15";
+	// Cannot assign to 'x' because it is a read-only property.
+	console.log(p.x);
+	console.log(p.y);
+};
+```
+额外的属性检查
 
 
 
