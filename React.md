@@ -16,6 +16,12 @@ pure components
 state
 state 对于每个组件来说是私有的，因此我们不能直接通过 Square 来更新 Board 的 state。
 
+key
+key 是 React 中一个特殊的保留属性（还有一个是 ref，拥有更高级的特性）。当 React 元素被创建出来的时候，React 会提取出 key 属性，然后把 key 直接存储在返回的元素上。虽然 key 看起来好像是 props 中的一个，但是你不能通过 this.props.key 来获取 key。React 会通过 key 来自动判断哪些组件需要更新。组件是不能访问到它的 key 的。
+每次只要你构建动态列表的时候，都因该指定一个合适的 key。
+如果你没有指定任何 key，React 会发出警告，并且会把数组的索引当作默认的 key。但是如果想要对列表进行重新排序、新增、删除操作时，把数组索引作为 key 是有问题的。显式地使用 key={i} 来指定 key 确实会消除警告，但是仍然和数组索引存在同样的问题，所以大多数情况下最好不要这么做。
+组件的 key 值并不需要在全局都保证唯一，只需要在当前的同一级元素之前保证唯一即可。
+
 
 Maximum update depth exceeded问题
 this.props.onClick():会立即调用
@@ -23,10 +29,11 @@ this.props.onClick：不会立即调用
 () => this.props.onClick()：不会立即调用
 在render里面使用this.props.onClick()，并且onClick方法会修改state时，会陷入死循环。
 
-JSX (JavaScript XML)
-JSX 是一个看起来很像 XML 的 JavaScript 语法扩展。
-可以在js中编写类XML的内容，同时在类XML内容中可以使用js(需要使用大括号括起来)。
-实际上，JSX 仅仅只是 React.createElement(component, props, ...children) 函数的语法糖。
+### [JSX (JavaScript XML)](https://zh-hans.reactjs.org/docs/jsx-in-depth.html)
+#### 语法糖
+JSX 是一个看起来很像 XML 的 JavaScript 语法扩展。   
+可以在js中编写类XML的内容，同时在类XML内容中可以使用js(需要使用大括号括起来)。   
+实际上，JSX 仅仅只是 React.createElement(component, props, ...children) 函数的语法糖。   
 
 ```
 <div className="shopping-list">
@@ -45,3 +52,35 @@ return React.createElement('div', {className: 'shopping-list'},
   React.createElement('ul', /* ... ul children ... */)
 );
 ```
+#### React 必须在作用域内
+由于 JSX 会编译为 React.createElement 调用形式，所以 React 库也必须包含在 JSX 代码作用域内。   
+即一定要引入react：`import React from 'react'`
+
+#### 用户定义的组件必须以大写字母开头
+以小写字母开头的元素代表一个 HTML 内置组件，比如 <div> 或者 <span> 会生成相应的字符串 'div' 或者 'span' 传递给 React.createElement（作为参数）。大写字母开头的元素则对应着在 JavaScript 引入或自定义的组件，如 <Foo /> 会编译为 React.createElement(Foo)。
+
+#### 在运行时选择类型
+不能把通用表达式作为React元素类型。如果想要动态决定元素类型，可以先把表达式的结果赋给大写字母开头的变量。
+```
+import React from 'react';
+import { PhotoStory, VideoStory } from './stories';
+
+const components = {
+  photo: PhotoStory,
+  video: VideoStory
+};
+
+function Story(props) {
+  // 正确！JSX 类型可以是大写字母开头的变量。
+  const SpecificStory = components[props.storyType];
+  return <SpecificStory story={props.story} />;
+}
+```
+
+
+
+
+
+
+
+
