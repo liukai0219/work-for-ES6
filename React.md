@@ -77,10 +77,58 @@ function Story(props) {
 }
 ```
 
+#### Props 默认值为 “True”
+不建议不传递 value 给 prop，因为这可能与 ES6 对象简写混淆，{foo} 是 {foo: foo} 的简写，而不是 {foo: true}。这样实现只是为了保持和 HTML 中标签属性的行为一致。
 
-
-
-
-
-
-
+#### 属性展开
+展开运算符 ... 
+```
+        const obj1 = {name:'Tom', age:'18', address:'abc'};
+        const obj2 = {...obj1};
+        const obj3 = {...obj1, name:'John'}; // 改变项目值
+        const obj4 = {...obj1, name:'Kim', age:'20', address:'asd'}; // 改变项目值
+        const obj5 = {...obj1, ...obj3, ...obj4};
+        const obj6 = {...obj1, gender:'male'}; // 增加项目
+        console.log(obj1); // {name: "Tom", age: "18", address: "abc"}
+        console.log(obj1); // {name: "Tom", age: "18", address: "abc"}
+        console.log(obj1); // {name: "John", age: "18", address: "abc"}
+        console.log(obj1); // {name: "Kim", age: "20", address: "asd"}
+        console.log(obj1); // {name: "Kim", age: "20", address: "asd"}
+        console.log(obj1); // {name: "Tom", age: "18", address: "abc", gender: "male"}
+        
+        // 替换项目
+        const Button = props => {
+          const { kind, ...other } = props;
+          const className = kind === "primary" ? "PrimaryButton" : "SecondaryButton";
+          return <button className={className} {...other} />;
+        };
+```
+#### JSX 中的子元素
+包含在开始和结束标签之间的 JSX 表达式内容将作为特定属性 props.children 传递给外层组件。
+布尔类型、Null 以及 Undefined 将会忽略
+```
+        <div />
+        <div></div>
+        <div>ABC{false}ABC</div>
+        <div>ABC{null}ABC</div>
+        <div>ABC{undefined}ABC</div>
+        <div>ABC{true}ABC</div>
+        //生成的HTML如下
+        <div></div>
+        <div></div>
+        <div>ABCABC</div>
+        <div>ABCABC</div>
+        <div>ABCABC</div>
+        <div>ABCABC</div>
+```
+可以用来根据条件判断是否渲染某元素    
+{showHeader && <Header />}   
+showHeader为true时才渲染   
+数字 0，仍然会被 React 渲染,如下面。需要把`props.messages.length`改成`props.messages.length > 0`
+```
+<div>
+  {props.messages.length &&
+    <MessageList messages={props.messages} />
+  }
+</div>
+```
