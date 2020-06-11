@@ -132,3 +132,4 @@ showHeader为true时才渲染
   }
 </div>
 ```
+反之，如果你想渲染 false、true、null、undefined 等值，你需要先将它们转换为字符串
