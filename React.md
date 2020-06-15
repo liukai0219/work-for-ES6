@@ -1,8 +1,28 @@
 # React
+#### 元素渲染
+将一个 React 元素渲染到根 DOM 节点中，只需要调用ReactDOM.render(),
+更新 UI 唯一的方式是创建一个全新的元素，并将其传入 ReactDOM.render()。
+渲染指挥渲染实际更新的地方，而不会渲染整个UI树。
 
-
-函数组件
+#### 组件 & Props
+组件，从概念上类似于 JavaScript 函数。它接受任意的入参（即 “props”），并返回用于描述页面展示内容的 React 元素。   
+函数组件   
 如果组件只包含一个 render 方法，并且不包含 state，那么可以定义成一个函数，这个函数接收 props 作为参数，然后返回需要渲染的元素。
+props   
+当 React 元素为用户自定义组件时，它会将 JSX 所接收的属性（attributes）以及子组件（children）转换为单个对象传递给组件，这个对象被称之为 “props”。  
+props不可被更改   
+元素与组件的区别   
+组件是由元素构成的。元素数据结构是普通对象，而组件数据结构是类或纯函数。   
+
+#### State & 生命周期
+不要直接修改 State，而是应该调用setState()改变State（构造函数是唯一可以给 this.state 赋值的地方）
+每次当State被修改时(调用setState而不是直接赋值)，render方法便会被调用，组件会重新渲染。
+State 的更新可能是异步的，出于性能考虑，React 可能会把多个 setState() 调用合并成一个调用。
+componentDidMount
+当组件第一次被渲染到 DOM 中的时候调用，这在 React 中被称为“挂载（mount）”。
+componentWillUnmount
+当组件被删除的时候调用。这在 React 中被称为“卸载（unmount）”。
+尽管 this.props 和 this.state 是 React 本身设置的，且都拥有特殊的含义，但是其实你可以向 class 中随意添加不参与数据流（比如计时器 ID）的额外字段。
 
 不可变性
 pure components
