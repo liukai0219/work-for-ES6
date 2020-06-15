@@ -140,10 +140,10 @@ showHeader为true时才渲染
 反之，如果你想渲染 false、true、null、undefined 等值，你需要先将它们转换为字符串
 
 #### 换行
-JSX{}中的`<br />`不会解析为换行，而是直接输出。
-解决换行有一下方法：
-方法一：使用dangerouslySetInnerHTML属性，但是不建议使用
-`<div dangerouslySetInnerHTML={{__html: htmlStr}}></div>`
-方法二：添加样式`whiteSpace:"pre-line"`,`/n`可以被解析为换行
-`<div style={{whiteSpace:"pre-line"}}>{htmlStr}</div>`
-方法三：对htmlStr进行切割，加入`<div>`,`<span>`等标签
+JSX{}中的`<br />`不会解析为换行，而是直接输出。   
+解决换行有一下方法：   
+方法一：使用dangerouslySetInnerHTML属性，但是不建议使用   
+`<div dangerouslySetInnerHTML={{__html: htmlStr}}></div>`   
+方法二：添加样式`whiteSpace:"pre-line"`,`/n`可以被解析为换行   
+`<div style={{whiteSpace:"pre-line"}}>{htmlStr}</div>`   
+方法三：对htmlStr进行切割，加入`<div>`,`<span>`等标签   
