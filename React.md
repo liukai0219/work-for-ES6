@@ -24,6 +24,35 @@ componentWillUnmount
 当组件被删除的时候调用。这在 React 中被称为“卸载（unmount）”。
 尽管 this.props 和 this.state 是 React 本身设置的，且都拥有特殊的含义，但是其实你可以向 class 中随意添加不参与数据流（比如计时器 ID）的额外字段。
 
+#### 组合 vs 继承
+React 有十分强大的组合模式。推荐使用组合而非继承来实现组件间的代码重用。   
+子组件可以通过children prop来传递，React元素也能通过props传递。
+```
+        function OkButton(props) {
+          return (
+            <button>Ok</button>
+          );
+        }
+
+        function Dialog(props) {
+          return (
+            <div>
+              <div>{props.children}</div>
+              <div>{props.ok}</div>
+            </div>
+          );
+        }
+
+        function WelcomeDialog(props) {
+          return (
+                  <Dialog ok={<OkButton></OkButton>}>
+                      <div>children</div>
+                  </Dialog>
+                );
+        }
+```
+
+
 不可变性
 pure components
 
