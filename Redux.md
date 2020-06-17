@@ -1,1 +1,11 @@
+state就像一个普通的对象，但没有setter，无法随意改变它的值，唯一改变state的方法就是发出一个action
+action也是一个普通的对象，描述了将要发生什么。
+关联state和action的方法就是reducer，reducer只进行state的计算并返回一个新的state。
+对于大型应用，state十分庞大，reducer函数必然也会特别庞大，这是你需要把reducer进行拆分，拆分后的reducer使用combineReducers合并。
+
+单一的真实来源
+应用的全局state都被存储在store里面
+state是只读的
+唯一改变state的方法就是发出一个action
+reducer是个纯函数
 
