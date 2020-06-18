@@ -486,8 +486,8 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
  export { firstName, lastName, year };      
  import { firstName, lastName, year } from './xxx.js';      
  默认导出最多只能一次，导入时不需要知道导出接口的名字，可以任意取别名，并且不用大括号。   
- export default foo;
- import abc from './xxx.js';    
+ export default foo;   
+ import abc from './xxx.js';     
  
  // ES6模块   
  import { stat, exists, readFile } from 'fs';
