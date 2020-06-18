@@ -480,7 +480,16 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
  
  模块功能主要由两个命令构成：export和import。export命令用于规定模块的对外接口，import命令用于输入其他模块提供的功能。
  
- // ES6模块
+ export分为命名导出和默认导出   
+ 命名导出后的接口，导入时需要用一样的名称，并且用大括号括起来。   
+ export var firstName = 'Michael';     
+ export { firstName, lastName, year };      
+ import { firstName, lastName, year } from './xxx.js';      
+ 默认导出最多只能一次，导入时不需要知道导出接口的名字，可以任意取别名，并且不用大括号。   
+ export default foo;
+ import abc from './xxx.js';    
+ 
+ // ES6模块   
  import { stat, exists, readFile } from 'fs';
 
  上面代码的实质是从`fs`模块加载 3 个方法，其他方法不加载。这种加载称为“编译时加载”或者静态加载
