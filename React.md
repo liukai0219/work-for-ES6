@@ -92,6 +92,14 @@ const styles = {
   } as React.CSSProperties
 };
 ```
+伪类(Pseudo-classes)效果的实现
+例如a:hover    
+在state中添加hover，当鼠标时间修改hover的值，a标签根据hover的值使用不同的样式。
+[stackoverflow](https://stackoverflow.com/questions/28365233/inline-css-styles-in-react-how-to-implement-ahover)
+
+
+
+
 
 ### [JSX (JavaScript XML)](https://zh-hans.reactjs.org/docs/jsx-in-depth.html)
 #### 语法糖
