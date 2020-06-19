@@ -43,9 +43,127 @@ reducer是个纯函数
 设置监听
 当state有变化会执行，可以用来绑定render，重新渲染画面
 
+#### 简单的例子
+my-reduxapp\src\store\store.js
+```
+    import { createStore, compose } from 'redux'
+    import { todoApp } from '../reducers/reducers'
 
+    // 解决在使用Chrome redux插件“No store found”问题
+    const enhancers = compose(
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      );
+    // const store = createStore(todoApp)
+    const store = createStore(todoApp, window.STATE_FROM_SEVER, enhancers)
 
+    export { store }
+```
+my-reduxapp\src\actions\actions.js
+```
+    const ADD_TODO = 'ADD_TODO'
 
+    // action定义
+    const addTodo = (text) => {
+        return {
+            type: ADD_TODO,
+            text: text
+        };
+    }
 
+    // 命名导出
+    export {
+        addTodo, 
+        ADD_TODO
+    }
+```
 
+my-reduxapp\src\reducers\reducers.js
+```
+    import { ADD_TODO } from '../actions/actions'
 
+    const initialState = {
+        todos: []
+    }
+
+    // 当进行了reducer分割时，使用combineReducers合成，redux会根据state的key查找对应子reducer
+    // const todoAppReducer = combineReducers({reducer01, reducer02})
+
+    // state = initialState  ES6引入的给参数赋默认值
+    function todoApp(state = initialState, action) {
+        switch (action.type) {
+            case ADD_TODO:
+                return Object.assign({}, state, {
+                    todos: [
+                        ...state.todos,
+                        {
+                            text: action.text,
+                            completed: false
+                        }
+                    ]
+                })
+                // Object.assign(target, ...sources)
+                // 将sources复制到target，并返回target，所以第一个参数是会被修改，state不能作为第一个参数
+            default:
+                // 默认返回当前state是很有必要的，用来处理未对应的action
+                return state;
+        }
+    }
+
+    export { todoApp };
+```
+
+my-reduxapp\src\components\App.js
+```
+    import React from 'react'
+    import { addTodo } from '../actions/actions'
+    import { store } from '../store/store'
+
+    function onClick(text) {
+        console.log(store.getState());
+        store.dispatch(addTodo(text))
+        console.log(store.getState());
+    }
+
+    const Button = ({onClick}) => {
+        return (
+            <div>
+                <button onClick={onClick}>add</button>
+            </div>
+        );
+    }
+
+    const App = () => {
+        return (
+            <div>
+                <div><h3>Redux Test</h3></div>
+                <div>
+                    <Button onClick={() => onClick('XXXX')}></Button>
+                    <ul>
+                        {store.getState().todos.map( todo => 
+                            <li>{todo.text}</li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+        );
+    }
+
+    export { App }
+```
+
+my-reduxapp\src\index.js
+```
+    import React from 'react'
+    import ReactDOM from 'react-dom'
+    import { store } from './store/store'
+    import { App } from './components/App'
+
+    const render = () => ReactDOM.render(<App />, document.getElementById('root'))
+
+    // 执行render方法，渲染页面
+    render()
+
+    // 注册监听，当state变更后，调用render方法，重新渲染页面
+    // 不注册监听的话，state变更后，画面不会重新渲染
+    store.subscribe(render);
+```
