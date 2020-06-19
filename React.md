@@ -82,6 +82,17 @@ this.props.onClick：不会立即调用
 阻止组件渲染
 让 render 方法直接返回 null，而不进行任何渲染。
 
+react中设置样式   
+```
+<button style={styles.color}>click</button>
+
+const styles = {
+  color: {
+    color: '#FFFFFF'
+  } as React.CSSProperties
+};
+```
+
 ### [JSX (JavaScript XML)](https://zh-hans.reactjs.org/docs/jsx-in-depth.html)
 #### 语法糖
 JSX 是一个看起来很像 XML 的 JavaScript 语法扩展。   
