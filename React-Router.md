@@ -64,6 +64,29 @@ React-Router-Native：基于react-router，加入了react-native运行环境下�
   let name = new URLSearchParams(useLocation().search).get("name"); // tom
 ```
 
+方式3：state传值
+```
+  // 传值
+  const pathPage02 = {
+      pathname: '/page02',
+      query: {
+          name: 'tom'
+      },
+      state: {
+          age: '12'
+      }
+  };
+  <Link to={pathPage02}> page02 </Link>
+  或者
+  props.history.push(pathPage02);
+  
+  // 取值
+  // 方式1
+  let age = useLocation().state.age; // 12
+  
+  // 方式2
+  let age = this.props.location.state.age; // 12
+```
 
 
 #### history
