@@ -26,17 +26,46 @@ React-Router-Native：基于react-router，加入了react-native运行环境下�
 动态路由：在页面渲染时路由。根据运行时的状态路由。   
 
 #### 传值
-方式1：url传值
+方式1：路由传值
 ```
+  // 传值
   <Link to="/name/tom">tom</Link>
   // route组件的path属性，通过`:name`形式接收参数
-  <Route path="/name/:name" /><Child /></Route>
+  <Route path="/name/:name" component={Child}/></Route>
 
   function Child() {
-    // 使用useParams()获取参数
+    // 取值
+    // 方式1 使用useParams()获取参数
     let { name } = useParams();
+    // 方式2 从props里面取值
+    let name = props.match.params?.name
   }
 ```
+
+方式2:URL传值
+```
+  // 传值
+  // 方式1
+  <Link to='/page03?name=tom'> page03 </Link>
+  // 方式2
+  const pathPage03 = {
+        pathname: '/page03',
+        search:'name=tom'
+    };
+    <Link to={pathPage03}> page03 </Link>
+    或者
+    props.history.push(pathPage03);
+  
+  // 取值
+  // 方式1
+  let search = useLocation().search; // ?name=tom
+  
+  // 方式2
+  let name = new URLSearchParams(useLocation().search).get("name"); // tom
+```
+
+
+
 #### history
 
 
