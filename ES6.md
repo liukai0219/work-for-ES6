@@ -603,6 +603,7 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
    // promise2   ※
    // setTimeout
    
+   // https://github.com/xianshenglu/blog/issues/60
    // chrome 73以前
    // script start
    // async1 start
