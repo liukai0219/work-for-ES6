@@ -566,9 +566,99 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
  如果它等到的不是一个 Promise 对象，那 await 表达式的运算结果就是它等到的东西。   
  如果它等到的是一个 Promise 对象，它会阻塞后面的代码，等着 Promise 对象 resolve，然后得到 resolve 的值，作为 await 表达式的运算结果。   
  
+ ```
+    async function async1() {
+       console.log( 'async1 start' )
+       await async2()
+       console.log( 'async1 end' )
+   }
+
+   async function async2() {
+       console.log( 'async2' )
+   }
+
+   console.log( 'script start' )
+
+   setTimeout( function () {
+       console.log( 'setTimeout' )
+   }, 0 )
+
+   async1();
+
+   new Promise( function ( resolve ) {
+       console.log( 'promise1' )
+       resolve();
+   } ).then( function () {
+       console.log( 'promise2' )
+   } )
+
+   console.log( 'script end' )
+   
+   // script start
+   // async1 start
+   // async2
+   // promise1
+   // script end
+   // async1 end   ※
+   // promise2   ※
+   // setTimeout
+   
+   // chrome 73以前
+   // script start
+   // async1 start
+   // async2
+   // promise1
+   // script end
+   // promise2   ※
+   // async1 end   ※
+   // setTimeout
+ ```
  
- 
- 
+ ```
+    async function async1() {
+       console.log( 'async1 start' )
+       await async2()
+       console.log( 'async1 end' )
+   }
+
+   async function async2() {
+       console.log( 'async2' )
+
+       return new Promise( function ( resolve ) {
+           console.log( 'async2 promise1' )
+           resolve();
+       } ).then( function () {
+           console.log( 'async2 promise2' )
+       } );
+   }
+
+   console.log( 'script start' )
+
+   setTimeout( function () {
+       console.log( 'setTimeout' )
+   }, 0 )
+
+   async1();
+
+   new Promise( function ( resolve ) {
+       console.log( 'promise1' )
+       resolve();
+   } ).then( function () {
+       console.log( 'promise2' )
+   } )
+
+   console.log( 'script end' )
+   // script start
+   // async1 start
+   // async2
+   // async2 promise1
+   // promise1
+   // script end
+   // async2 promise2
+   // promise2   ※
+   // async1 end   ※
+   // setTimeout
+ ```
 
 
 
