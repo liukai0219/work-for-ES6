@@ -557,8 +557,14 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
     console.log('Hi!');
  ```
  
+ ## async和await
+ async用来申明一个函数是异步的，且必定会返回一个promise，   
+ 当返回的不是promise时，会通过Promise.resolve()封装成promise。
+ `Promise.resolve(x)` 可以看作是 `new Promise(resolve => resolve(x))` 的简写
  
- 
+ await等待的是一个表达式，这个表达式的计算结果是 Promise 对象或者其它值   
+ 如果它等到的不是一个 Promise 对象，那 await 表达式的运算结果就是它等到的东西。   
+ 如果它等到的是一个 Promise 对象，它会阻塞后面的代码，等着 Promise 对象 resolve，然后得到 resolve 的值，作为 await 表达式的运算结果。   
  
  
  
