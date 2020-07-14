@@ -661,10 +661,11 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
    // setTimeout
  ```
 
-Event Loop
-https://github.com/kaola-fed/blog/issues/234#code-analysis-b-a
+Event Loop   
+https://github.com/kaola-fed/blog/issues/234
 
-
+`return await promise` 和 `return promise` 的区别   
+https://stackoverflow.com/questions/38708550/difference-between-return-await-promise-and-return-promise
 
 
 
