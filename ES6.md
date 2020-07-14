@@ -661,7 +661,8 @@ super.foo指向原型对象proto的foo方法，但是绑定的this却还是当�
    // setTimeout
  ```
 
-
+Event Loop
+https://github.com/kaola-fed/blog/issues/234#code-analysis-b-a
 
 
 
