@@ -27,7 +27,7 @@ connect方法可以省略mapStateToProps参数，那样的话，UI 组件就不�
 第一个参数总是dispatch对象，第二个参数代表容器组件的props对象（可选）
 UI组件调用定义的方法时，需要把对应方法传进去（参数同名）。
 
-#### <Provider>
+#### `<Provider>`
 用来帮容器组件拿到state
 
 #### 简单的例子
